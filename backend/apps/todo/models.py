@@ -17,14 +17,12 @@ class UUIDGenerator:
             """
             Helper function to generate the uuid.
             """
-            return str(uuid.uuid4().int)[:length]
+            return str(uuid.uuid4())[:length]
 
         new_uuid = _generate_uuid()
         if TodoRecord.objects.filter(uuid=new_uuid).exists():
-            raise
             return UUIDGenerator.generate_unique_uuid(length)
         return new_uuid
-
 
 
 class TodoRecord(models.Model):
