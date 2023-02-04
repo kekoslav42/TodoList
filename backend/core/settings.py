@@ -1,12 +1,14 @@
 from pathlib import Path
 
+from decouple import config
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-r#*d$m4n=)@=g7++#fo56t_dbz@bhmn0*1=q05x96c0j(s#gh)'
+SECRET_KEY = config("SECRET_KEY", "SOME_SECRET_KEY")
 
-DEBUG = True
+DEBUG = config("DEBUG", "") == "dev"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'apps.todo.apps.TodoConfig',
@@ -52,9 +54,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config('POSTGRES_DB', ''),
+        "USER": config('POSTGRES_USER', ''),
+        "PASSWORD": config('POSTGRES_PASSWORD', ''),
+        "HOST": config('POSTGRES_HOST', ''),
+        "PORT": config('POSTGRES_PORT', '')
     }
 }
 
@@ -81,12 +87,16 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/static/"
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "core.pagination.LimitOffsetPagination",
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
