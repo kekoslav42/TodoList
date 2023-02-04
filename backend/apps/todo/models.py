@@ -35,7 +35,7 @@ class TodoRecord(models.Model):
         default=timezone.now
     )
     body = models.TextField(
-        max_length=3000,
+        max_length=2000,
         blank=False,
         null=False
     )
