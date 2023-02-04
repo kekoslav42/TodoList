@@ -101,3 +101,14 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Todo API",
+    "VERSION": "0.0.1",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "persistAuthorization": False,
+        "filter": True,
+    },
+}
